@@ -252,13 +252,14 @@ def check_pillar_keys(keys, refresh=True, pillar=None, raise_error=True):
         # Do not use `saltutil.refresh_pillar` as in salt 2018.3 we can not do
         # synchronous pillar refresh
         # See https://github.com/saltstack/salt/issues/20590
-        pillar = get_pillar(
-            __opts__,
-            __grains__,
-            __grains__['id'],
-            saltenv=__opts__.get('saltenv'),
-            pillarenv=__opts__.get('pillarenv')
-        ).compile_pillar()
+        #pillar = get_pillar(
+        #    __opts__,
+        #    __grains__,
+        #    __grains__['id'],
+        #    saltenv=__opts__.get('saltenv'),
+        #    pillarenv=__opts__.get('pillarenv')
+        #).compile_pillar()
+        __salt__['saltutil.refresh_pillar'](wait=True)
 
     if not pillar:
         pillar = __pillar__
