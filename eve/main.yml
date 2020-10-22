@@ -3,8 +3,10 @@ version: "0.2"
 
 branches:
   # yamllint disable rule:line-length
-  user/*, feature/*, improvement/*, bugfix/*, w/*, q/*, hotfix/*, dependabot/*, documentation/*, release/*:
+  feature/*, improvement/*, bugfix/*, w/*, q/*, hotfix/*, dependabot/*, documentation/*, release/*:
     stage: pre-merge
+  user/*:
+    stage: test-rhsm
 
 models:
   # --- Re-usable steps (no parameters) ---
@@ -2260,3 +2262,18 @@ stages:
       - ShellCommand:
           <<: *terraform_destroy
           workdir: build/eve/workers/openstack-single-node-with-cypress/terraform
+
+  test-rhsm:
+    worker:
+      <<: *single_node_worker
+      flavor: m1.medium
+      path: eve/workers/openstack-single-node-rhel
+    steps:
+      - ShellCommand: *ssh_ip_setup
+      - ShellCommand:
+          name: get rhsm creds
+          command: echo "%(secret:rhel_ci_login)s:%(secret:rhel_ci_password)s" > /tmp/rhsm-creds.txt
+      - ShellCommand:
+          name: wait debug
+          command: sleep 3600
+
