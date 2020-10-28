@@ -1723,6 +1723,58 @@ stages:
       - ShellCommand: *wait_pods_running
       # --- Test version N ---
       - ShellCommand: *fast_tests
+      - SetProperty:
+          name: Set Example Solution version property
+          property: example_solution_version
+          value: "0.1.0"  # TODO: retrieve this version automatically
+      - ShellCommand:
+          <<: *retrieve_iso
+          name: Retrieve Example Solution ISO
+          env: &retrieve_solution_iso
+            <<: *_env_retrieve_artifact_retry
+            FILE_SOURCE: 'example-solution-%(prop:example_solution_version)s.iso'
+            DEST_DIR: '/var/tmp'
+            BASE_URL: "http://artifacts/builds/github:scality:metalk8s:\
+                       promoted-example-solution-%(prop:example_solution_version)s"
+      - ShellCommand:
+          <<: *retrieve_iso_checksum
+          name: Retrieve Example Solution ISO checksum
+          env: *retrieve_solution_iso
+      - ShellCommand:
+          <<: *check_iso_checksum
+          name: Check Example Solution ISO checksum
+          workdir: "/var/tmp"
+      - ShellCommand:
+          name: Import Example Solution ISO
+          command: >
+            sudo /srv/scality/metalk8s-%(prop:metalk8s_version)s/solutions.sh
+            import
+            --archive /var/tmp/example-solution-%(prop:example_solution_version)s.iso
+          haltOnFailure: true
+      - ShellCommand:
+          name: Activate Example Solution
+          command: >
+            sudo /srv/scality/metalk8s-%(prop:metalk8s_version)s/solutions.sh
+            activate
+            --name example-solution
+            --version %(prop:example_solution_version)s
+          haltOnFailure: true
+      - ShellCommand:
+          name: Create Environment for Example Solution
+          command: >
+            sudo /srv/scality/metalk8s-%(prop:metalk8s_version)s/solutions.sh
+            create-env
+            --name example-environment
+          haltOnFailure: true
+      - ShellCommand:
+          name: Add Example Solution to the Environment
+          command: >
+            sudo /srv/scality/metalk8s-%(prop:metalk8s_version)s/solutions.sh
+            add-solution
+            --name example-environment
+            --solution example-solution
+            --version %(prop:example_solution_version)s
+          haltOnFailure: true
       # --- Downgrade to promoted version ---
       - ShellCommand:
           <<: *add_archive
