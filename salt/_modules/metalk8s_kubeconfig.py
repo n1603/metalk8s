@@ -16,7 +16,8 @@ def __virtual__():
 def validate(filename,
              expected_ca_data,
              expected_api_server,
-             expected_cn):
+             expected_cn,
+             days_remaining=90):
     """Validate a kubeconfig filename.
 
     Validate that the kubeconfig provided by filename
@@ -90,7 +91,7 @@ def validate(filename,
         return False
     else:
         if datetime.strptime(expiration_date, "%Y-%m-%d %H:%M:%S") \
-                - timedelta(days=30) < datetime.now():
+                - timedelta(days=days_remaining) < datetime.now():
             return False
 
     if __salt__['x509.verify_signature'](
