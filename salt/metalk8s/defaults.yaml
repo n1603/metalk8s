@@ -113,3 +113,20 @@ coredns:
 upgrade: false        # define if we're on an upgrade case
 
 proxies: {}
+
+certificates:
+  beacon:
+    interval: 86400  # once a day
+    notify_days: 45
+  client:
+    days_remaining: 90
+    days_valid: 365
+    files: {}
+  kubeconfig:
+    days_remaining: 90
+    days_valid: 365
+    files: {}
+  server:
+    days_remaining: 90
+    days_valid: 365
+    files: {}
