@@ -154,6 +154,7 @@ class StaticContainerRegistry(_StaticContainerRegistryBase):
 
 
 PILLAR_FILES : Tuple[Union[Path, targets.AtomicTarget], ...] = (
+    Path('pillar/metalk8s/cni/calico.sls'),
     Path('pillar/metalk8s/roles/bootstrap.sls'),
     Path('pillar/metalk8s/roles/ca.sls'),
     Path('pillar/metalk8s/roles/etcd.sls'),

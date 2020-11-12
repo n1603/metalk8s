@@ -25,3 +25,8 @@ metalk8s-{{ version }}:
     - match: compound
     - metalk8s.roles.{{ role }}
 {% endfor %}
+
+  # Apply on all nodes, except if the only role is CA.
+  {{ version_match }} and J@metalk8s:nodes:{{ grains.id }}:roles:^({{ roles | join("|") }})$:
+    - match: compound
+    - metalk8s.cni.calico
