@@ -133,6 +133,8 @@ downgrade_bootstrap () {
         | cut -d' ' -f2- )"
     repo_endpoint="$($SALT_CALL pillar.get metalk8s:endpoints:repositories --out txt \
         | cut -d' ' -f2- )"
+    certificates=$($SALT_CALL pillar.get certificates --out txt \
+        | cut -d' ' -f2-)
 
     SALT_MASTER_CALL=(crictl exec -i "$(get_salt_container)")
     "${SALT_MASTER_CALL[@]}" salt-run state.orchestrate \
@@ -153,7 +155,7 @@ downgrade_bootstrap () {
     "${SALT_CALL}" --local --retcode-passthrough state.sls sync_mods="all" \
         "$bootstrap_state" saltenv="metalk8s-$DESTINATION_VERSION" \
         pillar="{'metalk8s': {'endpoints': {'salt-master': $saltmaster_endpoint, \
-        'repositories': $repo_endpoint}}}"
+        'repositories': $repo_endpoint}}, 'certificates': ${certificates:-{\}}}"
 }
 
 # patch the kube-system namespace annotation with <destination-version> input

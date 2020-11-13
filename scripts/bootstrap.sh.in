@@ -83,6 +83,10 @@ orchestrate_bootstrap() {
         $SALT_CALL --local grains.get metalk8s:control_plane_ip --out txt \
         | awk '/^local\: /{ print $2 }'
     )
+    local -r bootstrap_id=$(
+        $SALT_CALL --local --out txt grains.get id \
+        | awk '/^local\: /{ print $2 }'
+    )
 
     pillar=(
       "{"
@@ -94,6 +98,12 @@ orchestrate_bootstrap() {
       "         'ports': {'http': 8080}"
       "      },"
       "      'salt-master': {'ip': $control_plane_ip}"
+      "    },"
+      "    'nodes': {"
+      "      '$bootstrap_id': {"
+      "        roles: ['bootstrap'],"
+      "        version: '@@VERSION'"
+      "      }"
       "    }"
       "  }"
       "}"
@@ -121,11 +131,6 @@ orchestrate_bootstrap() {
     run "Syncing Execution modules on Salt master" \
         "${SALT_MASTER_CALL[@]}" salt-run --state-output=mixed saltutil.sync_modules \
             saltenv=metalk8s-@@VERSION
-
-    local -r bootstrap_id=$(
-        $SALT_CALL --local --out txt grains.get id \
-        | awk '/^local\: /{ print $2 }'
-    )
 
     pillar=(
       "{"
