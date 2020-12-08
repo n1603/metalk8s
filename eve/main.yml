@@ -674,6 +674,10 @@ stages:
           stage_names:
             - single-node-install-rhel
             - multiple-nodes-centos
+            - single-node-install-rhel
+            - multiple-nodes-centos
+            - single-node-install-rhel
+            - multiple-nodes-centos
       - ShellCommand: *add_final_status_artifact_success
       - Upload: *upload_final_status_artifact
 

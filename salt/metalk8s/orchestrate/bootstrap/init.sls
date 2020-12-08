@@ -117,6 +117,14 @@ Configure bootstrap Node object:
   - require:
     - http: Wait for API server to be available
 
+Sleep a bit:
+  test.configurable_test_state:
+    - changes: False
+    - result: __slot__:salt:test.sleep(20)
+    - comment: Wait a bit
+    - onchanges:
+      - salt: Configure bootstrap Node object
+
 Update pillar on bootstrap minion after highstate:
   salt.function:
   - name: saltutil.refresh_pillar
@@ -154,6 +162,7 @@ Deploy Kubernetes objects:
   - require:
     - http: Wait for API server to be available
     - salt: Deploy Kubernetes service config objects
+    - test: Sleep a bit
 
 Store MetalK8s version in annotations:
   metalk8s_kubernetes.object_updated:
