@@ -1,4 +1,4 @@
-import { V1Namespace, V1NamespaceList } from '@kubernetes/client-node/dist/gen/model/models';
+import { V1Namespace } from '@kubernetes/client-node/dist/gen/model/models';
 import { coreV1 } from './api';
 import * as core from './core';
 

@@ -31,7 +31,6 @@ import {
   API_STATUS_NOT_READY,
   API_STATUS_UNKNOWN,
 } from '../../constants.js';
-import { V1Node } from '@kubernetes/client-node/dist/gen/model/v1Node';
 
 // Actions
 const FETCH_NODES = 'FETCH_NODES';

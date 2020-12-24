@@ -21,7 +21,7 @@ import {
 } from './notifications';
 import { intl } from '../../translations/IntlGlobalProvider';
 import { addJobAction, JOB_COMPLETED } from './salt';
-import { V1ConfigMap, V1NamespaceList } from '@kubernetes/client-node/dist/gen/model/models';
+import { V1ConfigMap } from '@kubernetes/client-node/dist/gen/model/models';
 
 const OPERATOR_ = '-operator';
 const _K8S = 'app.kubernetes.io';
