@@ -31,6 +31,7 @@ import {
   API_STATUS_NOT_READY,
   API_STATUS_UNKNOWN,
 } from '../../constants.js';
+import { V1Node } from '@kubernetes/client-node/dist/gen/model/v1Node';
 
 // Actions
 const FETCH_NODES = 'FETCH_NODES';
@@ -160,6 +161,25 @@ const defaultState = {
   IPsInfo: {},
   currentNodeObject: null,
 };
+
+export type NodesState = {
+  clusterVersion: string,
+  isRefreshing: boolean,
+  isLoading: boolean,
+  IPsInfo: any,
+  currentNodeObject: any,
+  list: {
+    name: string,
+    metalk8s_version: string,
+    status: "ready" | "not_ready" | "unknown",
+    conditions: ("DiskPressure" | "MemoryPressure" | "PIDPressure" | "NetworkUnavailable" | "Unschedulable")[],
+    roles: string,
+    deploying: boolean,
+    internalIP: string,
+    creationTimestamp: string,
+    kubeletVersion: string,
+  }[]
+}
 
 export default function reducer(state = defaultState, action = {}) {
   switch (action.type) {
