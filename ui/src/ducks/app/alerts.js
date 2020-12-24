@@ -1,5 +1,7 @@
+//@flow
 import { takeEvery, takeLatest, call, put, delay, select } from 'redux-saga/effects';
 import * as ApiAlertmanager from '../../services/alertmanager/api';
+import type {RootState} from '../reducer';
 
 import {
   REFRESH_TIMEOUT,
@@ -12,7 +14,7 @@ const REFRESH_ALERTS_ALERTMANAGER = 'REFRESH_ALERTS_ALERTMANAGER';
 const STOP_REFRESH_ALERTS_ALERTMANAGER = 'STOP_REFRESH_ALERTS_ALERTMANAGER';
 
 // Selectors
-export const isAlertManagerRefreshing = (state) =>
+export const isAlertManagerRefreshing = (state: RootState) =>
   state.app.alerts.isRefreshing;
 
 // Reducer
@@ -21,7 +23,12 @@ const defaultState = {
   list: [],
 };
 
-export default function reducer(state = defaultState, action = {}) {
+export type AlertsState = {
+  isRefreshing: boolean,
+  list: ApiAlertmanager.PrometheusAlert[]
+}
+
+export default function reducer(state: AlertsState = defaultState, action: any = {}) {
   switch (action.type) {
     case UPDATE_ALERTS_ALERTMANAGER:
       return { ...state, ...action.payload };
@@ -35,7 +42,7 @@ export const fetchAlertsAlertmanagerAction = () => {
   return { type: FETCH_ALERTS_ALERTMANAGER };
 };
 
-export const updateAlertsAlertmanagerAction = (payload) => {
+export const updateAlertsAlertmanagerAction = (payload: $Shape<AlertsState>) => {
   return { type: UPDATE_ALERTS_ALERTMANAGER, payload };
 };
 
@@ -49,7 +56,7 @@ export const stopRefreshAlertManagerAction = () => {
 
 
 // Sagas
-export function* fetchAlertsAlertmanager() {
+export function* fetchAlertsAlertmanager(): Generator<any, ApiAlertmanager.PrometheusAlert[] | {error: any}, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
   const result = yield call(ApiAlertmanager.getAlerts);
 
   if (!result.error) {
@@ -58,7 +65,7 @@ export function* fetchAlertsAlertmanager() {
   return result;
 }
 
-export function* refreshAlertsAlertmanager() {
+export function* refreshAlertsAlertmanager(): Generator<any, void, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
   yield put(updateAlertsAlertmanagerAction({ isRefreshing: true }));
   const result = yield call(fetchAlertsAlertmanager);
   if (!result.error) {
@@ -70,12 +77,12 @@ export function* refreshAlertsAlertmanager() {
   }
 }
 
-export function* stopRefreshAlertsAlertmanager() {
+export function* stopRefreshAlertsAlertmanager(): Generator<any, void, void> {
   yield put(updateAlertsAlertmanagerAction({ isRefreshing: false }));
 }
 
 
-export function* alertsSaga() {
+export function* alertsSaga(): Generator<void, void, void> {
   yield takeLatest(FETCH_ALERTS_ALERTMANAGER, fetchAlertsAlertmanager);
   yield takeEvery(REFRESH_ALERTS_ALERTMANAGER, refreshAlertsAlertmanager);
   yield takeEvery(STOP_REFRESH_ALERTS_ALERTMANAGER, stopRefreshAlertsAlertmanager);
