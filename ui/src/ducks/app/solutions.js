@@ -141,7 +141,7 @@ export function* createEnvironment(action: {payload: {name: string}}): Generator
 export function* prepareEnvironment(action: {payload: {envName: string, solName: string, solVersion: string }}): Generator<Effect, void, any> {
   const { envName, solName, solVersion } = action.payload;
 
-  const existingEnv: SolutionsApi.Environments = yield select((state) => state.app.solutions.environments);
+  const existingEnv: SolutionsApi.Environment[] = yield select((state: RootState) => state.app.solutions.environments);
 
   const preparingEnv = existingEnv.find((env) => env.name === envName);
 
