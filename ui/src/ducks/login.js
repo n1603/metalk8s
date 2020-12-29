@@ -1,6 +1,6 @@
 //@flow
 import type {RootState} from './reducer';
-import { call, takeEvery, put, select } from 'redux-saga/effects';
+import { Effect, call, takeEvery, put, select } from 'redux-saga/effects';
 import * as ApiSalt from '../services/salt/api';
 
 import type { Config } from '../services/api';
@@ -44,7 +44,7 @@ export const setSaltAuthenticationSuccessAction = (payload: ApiSalt.SaltToken) =
 };
 
 // Sagas
-export function* authenticateSaltApi(): Generator<any, void, any> {
+export function* authenticateSaltApi(): Generator<Effect, void, any> {
   const api: Config | null = yield select(apiConfigSelector);
   const user: User = yield select((state: RootState) => state.oidc?.user);
   const result: { error: any } | ApiSalt.SaltToken = yield call(ApiSalt.authenticate, user);
@@ -64,6 +64,6 @@ export function* authenticateSaltApi(): Generator<any, void, any> {
   }
 }
 
-export function* authenticateSaga(): Generator<void, void, void> {
+export function* authenticateSaga(): Generator<Effect, void, void> {
   yield takeEvery(AUTHENTICATE_SALT_API, authenticateSaltApi);
 }

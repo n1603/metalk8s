@@ -1,5 +1,5 @@
 //@flow
-import { takeEvery, takeLatest, call, put, delay, select } from 'redux-saga/effects';
+import { Effect, takeEvery, takeLatest, call, put, delay, select } from 'redux-saga/effects';
 import * as ApiAlertmanager from '../../services/alertmanager/api';
 import type {RootState} from '../reducer';
 
@@ -56,7 +56,7 @@ export const stopRefreshAlertManagerAction = () => {
 
 
 // Sagas
-export function* fetchAlertsAlertmanager(): Generator<any, ApiAlertmanager.PrometheusAlert[] | {error: any}, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
+export function* fetchAlertsAlertmanager(): Generator<Effect, ApiAlertmanager.PrometheusAlert[] | {error: any}, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
   const result = yield call(ApiAlertmanager.getAlerts);
 
   if (!result.error) {
@@ -65,7 +65,7 @@ export function* fetchAlertsAlertmanager(): Generator<any, ApiAlertmanager.Prome
   return result;
 }
 
-export function* refreshAlertsAlertmanager(): Generator<any, void, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
+export function* refreshAlertsAlertmanager(): Generator<Effect, void, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
   yield put(updateAlertsAlertmanagerAction({ isRefreshing: true }));
   const result = yield call(fetchAlertsAlertmanager);
   if (!result.error) {
@@ -77,12 +77,12 @@ export function* refreshAlertsAlertmanager(): Generator<any, void, ApiAlertmanag
   }
 }
 
-export function* stopRefreshAlertsAlertmanager(): Generator<any, void, void> {
+export function* stopRefreshAlertsAlertmanager(): Generator<Effect, void, void> {
   yield put(updateAlertsAlertmanagerAction({ isRefreshing: false }));
 }
 
 
-export function* alertsSaga(): Generator<void, void, void> {
+export function* alertsSaga(): Generator<Effect, void, void> {
   yield takeLatest(FETCH_ALERTS_ALERTMANAGER, fetchAlertsAlertmanager);
   yield takeEvery(REFRESH_ALERTS_ALERTMANAGER, refreshAlertsAlertmanager);
   yield takeEvery(STOP_REFRESH_ALERTS_ALERTMANAGER, stopRefreshAlertsAlertmanager);
