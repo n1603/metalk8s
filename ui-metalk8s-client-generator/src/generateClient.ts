@@ -55,6 +55,22 @@ export function generateClient(crdFile: string, destinationFile: string) {
       return { error };
     }
   }
+
+  export async function get${singleName}(${singleName}Name: string): Promise<Result<${singleName}>> {
+    if (!customObjects) {
+      return { error: 'customObject has not yet been initialized' };
+    }
+    try {
+      return await customObjects.getClusterCustomObject(
+        '${crdSpec.spec.group}',
+        '${crdSpec.spec.version}',
+        '${crdSpec.spec.names.plural}',
+        ${singleName}Name,
+      );
+    } catch (error) {
+      return { error };
+    }
+  }
   
   export async function delete${singleName}(${singleName}Name: string) {
     if (!customObjects) {
