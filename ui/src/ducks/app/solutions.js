@@ -13,6 +13,7 @@ import {
 import * as CoreApi from '../../services/k8s/core';
 import * as SolutionsApi from '../../services/k8s/solutions';
 import * as SaltApi from '../../services/salt/api';
+import type {APIResult} from '../../types';
 
 import history from '../../history';
 import { REFRESH_TIMEOUT } from '../../constants';
@@ -120,7 +121,7 @@ export function* fetchEnvironments(): Generator<Effect, void, any> {
   return updatedEnvironments;
 }
 
-export function* createEnvironment(action: {payload: {name: string}}): Generator<Effect, void, {body: V1ConfigMap} | {error: any}> {
+export function* createEnvironment(action: {payload: {name: string}}): Generator<Effect, void, APIResult<V1ConfigMap>> {
   const { name } = action.payload;
   const resultCreateEnvironment = yield call(
     SolutionsApi.createEnvironment,

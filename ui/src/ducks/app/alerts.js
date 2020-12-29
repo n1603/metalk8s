@@ -2,6 +2,7 @@
 import { Effect, takeEvery, takeLatest, call, put, delay, select } from 'redux-saga/effects';
 import * as ApiAlertmanager from '../../services/alertmanager/api';
 import type {RootState} from '../reducer';
+import type {Result} from '../../types';
 
 import {
   REFRESH_TIMEOUT,
@@ -56,7 +57,7 @@ export const stopRefreshAlertManagerAction = () => {
 
 
 // Sagas
-export function* fetchAlertsAlertmanager(): Generator<Effect, ApiAlertmanager.PrometheusAlert[] | {error: any}, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
+export function* fetchAlertsAlertmanager(): Generator<Effect, Result<ApiAlertmanager.PrometheusAlert[]>, Result<ApiAlertmanager.PrometheusAlert[]>> {
   const result = yield call(ApiAlertmanager.getAlerts);
 
   if (!result.error) {
@@ -65,7 +66,7 @@ export function* fetchAlertsAlertmanager(): Generator<Effect, ApiAlertmanager.Pr
   return result;
 }
 
-export function* refreshAlertsAlertmanager(): Generator<Effect, void, ApiAlertmanager.PrometheusAlert[] | {error: any}> {
+export function* refreshAlertsAlertmanager(): Generator<Effect, void, Result<ApiAlertmanager.PrometheusAlert[]>> {
   yield put(updateAlertsAlertmanagerAction({ isRefreshing: true }));
   const result = yield call(fetchAlertsAlertmanager);
   if (!result.error) {

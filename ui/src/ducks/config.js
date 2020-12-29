@@ -16,6 +16,7 @@ import * as ApiAlertmanager from '../services/alertmanager/api';
 import { EN_LANG, FR_LANG, LANGUAGE } from '../constants';
 
 import { authenticateSaltApi } from './login';
+import type { Result } from '../types';
 // Actions
 export const SET_LANG = 'SET_LANG';
 export const SET_THEME = 'SET_THEME';
@@ -165,7 +166,7 @@ export const languageSelector = (state: RootState) => state.config.language;
 export const apiConfigSelector = (state: RootState) => state.config.api;
 
 // Sagas
-export function* fetchTheme(): Generator<Effect, void, WrappedThemes | {error: any}> {
+export function* fetchTheme(): Generator<Effect, void, Result<WrappedThemes>> {
   const result = yield call(Api.fetchTheme);
   if (!result.error) {
     // get the default theme from configMap
@@ -179,7 +180,7 @@ export function* fetchTheme(): Generator<Effect, void, WrappedThemes | {error: a
   }
 }
 
-export function* fetchConfig(): Generator<Effect, void, Config | {error: any}> {
+export function* fetchConfig(): Generator<Effect, void, Result<Config>> {
   yield call(Api.initialize, process.env.PUBLIC_URL);
   const result = yield call(Api.fetchConfig);
   if (!result.error && result.url_oidc_provider && result.url_redirect) {
