@@ -4,7 +4,6 @@ import { CoreV1Api } from '@kubernetes/client-node/dist/gen/api/coreV1Api';
 import { CustomObjectsApi } from '@kubernetes/client-node/dist/gen/api/customObjectsApi';
 import { StorageV1Api } from '@kubernetes/client-node/dist/gen/api/storageV1Api';
 import { AppsV1Api } from '@kubernetes/client-node/dist/gen/api/appsV1Api';
-import { V1ObjectMeta } from '@kubernetes/client-node/dist/gen/model/models';
 
 let config: typeof Config;
 export let coreV1: CoreV1Api;

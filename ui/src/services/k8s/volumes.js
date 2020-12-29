@@ -1,5 +1,5 @@
 //@flow
-import { coreV1, customObjects, storage } from './api';
+import { coreV1, storage } from './api';
 
 export async function getPersistentVolumes() {
   if (!coreV1) {
