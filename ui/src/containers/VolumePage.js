@@ -33,7 +33,7 @@ import { Breadcrumb } from '@scality/core-ui';
 import { PageContainer } from '../components/CommonLayoutStyle';
 import { intl } from '../translations/IntlGlobalProvider';
 import { useQuery } from '../services/utils';
-import { useTypedSelector } from '../ducks/reducer';
+import { useTypedSelector } from '../hooks';
 
 // <VolumePage> component fetchs all the data used by volume page from redux store.
 // the data for <VolumeMetricGraphCard>: get the default metrics time span `last 24 hours`, and the component itself can change the time span base on the dropdown selection.

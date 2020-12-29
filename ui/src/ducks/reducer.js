@@ -1,7 +1,6 @@
 //@flow
 import { combineReducers } from 'redux';
 import { reducer as oidcReducer, UserState } from 'redux-oidc';
-import { useSelector } from 'react-redux';
 
 import config from './config';
 import type {ConfigState} from './config'
@@ -54,10 +53,5 @@ export type RootState = {
     alerts: AlertsState
   }
 }
-
-export const useTypedSelector: <TSelected>(
-  selector: (state: RootState) => TSelected,
-  equalityFn?: (left: TSelected, right: TSelected) => boolean
-) => TSelected = useSelector;
 
 export default rootReducer;
