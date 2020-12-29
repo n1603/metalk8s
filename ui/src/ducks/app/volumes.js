@@ -64,7 +64,7 @@ export type VolumesState = {
   isLoading: boolean,
   isSCLoading: boolean,
   currentVolumeObject: {
-    data: Metalk8sV1Alpha1Volume | null,
+    data: ?Metalk8sV1Alpha1Volume,
   },
 }
 
@@ -173,7 +173,7 @@ export const fetchCurrentVolumeObjectAction = (volumeName: string) => {
   return { type: FETCH_CURRENT_VOLUME_OBJECT, volumeName };
 };
 
-export const setCurrentVolumeObjectAction = (payload: {data: Metalk8sV1Alpha1Volume | null}) => {
+export const setCurrentVolumeObjectAction = (payload: {data: ?Metalk8sV1Alpha1Volume}) => {
   return { type: SET_CURRENT_VOLUME_OBJECT, payload };
 };
 

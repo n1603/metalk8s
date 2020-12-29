@@ -1,7 +1,7 @@
 //@flow
 import ApiClient from '../ApiClient';
 
-let alertmanagerApiClient: ApiClient = null;
+let alertmanagerApiClient: ?ApiClient = null;
 
 export function initialize(apiUrl: string) {
   alertmanagerApiClient = new ApiClient({ apiUrl });
@@ -31,5 +31,8 @@ export type PrometheusAlert = {
 
 
 export function getAlerts(): Promise<PrometheusAlert[]> {
+  if (!alertmanagerApiClient) {
+    throw new Error('alertmanagerApiClient should be defined');
+  }
   return alertmanagerApiClient.get('/api/v2/alerts');
 }

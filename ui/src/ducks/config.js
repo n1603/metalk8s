@@ -62,7 +62,7 @@ const defaultState = {
 export type ConfigState = {
   language: string,
   theme: Theme,
-  api: Config | null,
+  api: ?Config,
   userManagerConfig: {
     client_id: string,
     redirect_uri: string,

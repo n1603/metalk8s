@@ -130,7 +130,7 @@ const defaultState = {
 export type MonitoringState = {
   alert: {
     list: any[], // todo, type alert
-    error: any | null,
+    error: ?any,
     isLoading: boolean,
     isRefreshing: boolean,
   },
@@ -138,7 +138,7 @@ export type MonitoringState = {
     apiServerStatus: number,
     kubeSchedulerStatus: number,
     kubeControllerManagerStatus: number,
-    error: any | null,
+    error: ?any,
     isLoading: boolean,
     isRefreshing: boolean,
     isPrometheusVolumeProvisioned: boolean,

@@ -19,7 +19,7 @@ const defaultState = {
 };
 
 export type LoginState = {
-  salt: ApiSalt.SaltToken | null
+  salt: ?ApiSalt.SaltToken
 }
 
 export default function reducer(state: LoginState = defaultState, action: any = {}) {
@@ -45,7 +45,7 @@ export const setSaltAuthenticationSuccessAction = (payload: ApiSalt.SaltToken) =
 
 // Sagas
 export function* authenticateSaltApi(): Generator<Effect, void, any> {
-  const api: Config | null = yield select(apiConfigSelector);
+  const api: ?Config = yield select(apiConfigSelector);
   const user: User = yield select((state: RootState) => state.oidc?.user);
   const result: { error: any } | ApiSalt.SaltToken = yield call(ApiSalt.authenticate, user);
   if (api && result && !result.error) {
