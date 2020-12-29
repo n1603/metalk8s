@@ -37,15 +37,11 @@ export type Theme = {
   "logo_path": string
 }
 
-export type Themes = {
-  "light": Theme,
-  "dark": Theme,
-  "custom": Theme
-}
+export type Themes = { [key: string]: Theme }
 
 export type WrappedThemes = {
   "theme": Themes,
-  "default": "dark"
+  "default": string
 }
 
 export type Config = {

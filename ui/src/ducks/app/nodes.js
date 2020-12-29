@@ -165,8 +165,8 @@ export type NodesState = {
   clusterVersion: string,
   isRefreshing: boolean,
   isLoading: boolean,
-  IPsInfo: any,
-  currentNodeObject: any,
+  IPsInfo: any, // TODO: define the type of this 
+  currentNodeObject: any, // TODO: define the type of this 
   list: {
     name: string,
     metalk8s_version: string,
