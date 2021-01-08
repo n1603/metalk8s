@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useRouteMatch, useHistory } from 'react-router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useRouteMatch } from 'react-router';
+import { useDispatch } from 'react-redux';
 import VolumeContent from './VolumePageContent';
 import { fetchPodsAction } from '../ducks/app/pods';
 import { refreshNodesAction, stopRefreshNodesAction } from '../ducks/app/nodes';
@@ -32,7 +32,6 @@ import { getVolumeListData } from '../services/NodeVolumesUtils';
 import { Breadcrumb } from '@scality/core-ui';
 import { PageContainer } from '../components/CommonLayoutStyle';
 import { intl } from '../translations/IntlGlobalProvider';
-import { useQuery } from '../services/utils';
 import { useTypedSelector } from '../hooks';
 
 // <VolumePage> component fetchs all the data used by volume page from redux store.
