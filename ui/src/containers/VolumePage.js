@@ -24,14 +24,8 @@ import {
   refreshCurrentVolumeStatsAction,
   stopRefreshCurrentVolumeStatsAction,
 } from '../ducks/app/monitoring';
-import {
-  BreadcrumbContainer,
-  BreadcrumbLabel,
-} from '../components/BreadcrumbStyle';
 import { getVolumeListData } from '../services/NodeVolumesUtils';
-import { Breadcrumb } from '@scality/core-ui';
 import { PageContainer } from '../components/CommonLayoutStyle';
-import { intl } from '../translations/IntlGlobalProvider';
 
 // <VolumePage> component fetchs all the data used by volume page from redux store.
 // the data for <VolumeMetricGraphCard>: get the default metrics time span `last 24 hours`, and the component itself can change the time span base on the dropdown selection.
@@ -68,7 +62,6 @@ const VolumePage = (props) => {
   useRefreshEffect(refreshAlertManagerAction, stopRefreshAlertManagerAction);
 
   // get all the pods for all the nodes
-  const theme = useSelector((state) => state.config.theme);
   const pods = useSelector((state) => state.app.pods.list);
   const node = useSelector((state) => makeGetNodeFromUrl(state, props));
   const nodes = useSelector((state) => state.app.nodes.list);
@@ -95,19 +88,6 @@ const VolumePage = (props) => {
 
   return (
     <PageContainer>
-      <BreadcrumbContainer>
-        <Breadcrumb
-          activeColor={theme.brand.secondary}
-          paths={[
-            <BreadcrumbLabel title={intl.translate('platform')}>
-              {intl.translate('platform')}
-            </BreadcrumbLabel>,
-            <BreadcrumbLabel title={intl.translate('volumes')}>
-              {intl.translate('volumes')}
-            </BreadcrumbLabel>,
-          ]}
-        />
-      </BreadcrumbContainer>
       <VolumeContent
         volumes={volumes}
         volumeListData={volumeListData}
